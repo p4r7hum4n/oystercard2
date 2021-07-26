@@ -12,5 +12,8 @@ describe OysterCard do
       oystercard.top_up(10)
       expect(oystercard.balance).to(eq(10))
     end
+    it "fails when user tops up more than 90" do
+      expect { oystercard.top_up(91) }.to raise_error("Balance cannot exceed 90!")
+    end
   end
 end
