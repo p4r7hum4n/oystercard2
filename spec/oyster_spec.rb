@@ -16,4 +16,10 @@ describe OysterCard do
       expect { oystercard.top_up(91) }.to raise_error("Balance cannot exceed #{OysterCard::LIMIT}!")
     end
   end
+  describe "#deduct" do 
+    it "deducts the cost of the ticket" do
+      oystercard.top_up(10)
+      expect(oystercard.deduct(5)).to(eq(5))
+    end
+  end
 end
