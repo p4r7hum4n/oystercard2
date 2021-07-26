@@ -16,12 +16,13 @@ describe OysterCard do
       expect { oystercard.top_up(91) }.to raise_error("Balance cannot exceed #{OysterCard::LIMIT}!")
     end
   end
-  describe "#deduct" do 
-    it "deducts the cost of the ticket" do
-      oystercard.top_up(10)
-      expect(oystercard.deduct(5)).to(eq(5))
-    end
-  end
+  # deduct is now a private method
+  # describe "#deduct" do 
+  #   it "deducts the cost of the ticket" do
+  #     oystercard.top_up(10)
+  #     expect(oystercard.deduct(5)).to(eq(5))
+  #   end
+  # end
   describe "#touch_in" do
     it "changes value of in_journey to true" do
       oystercard.top_up(5)
@@ -34,8 +35,14 @@ describe OysterCard do
   end
   describe "#touch_out" do
     it "changes value of in_journey to false" do
+      oystercard.top_up(1)
       oystercard.touch_out
       expect(oystercard.in_journey).to eq(false)
+    end
+    it "deducts the minimum fare from balace" do
+      oystercard.top_up(1)
+      expect { oystercard.touch_out }.to change{ oystercard.balance }.by(-OysterCard::MINIMUM)
+      
     end
   end
   describe "#in_journey?" do
