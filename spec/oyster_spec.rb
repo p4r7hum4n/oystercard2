@@ -22,4 +22,23 @@ describe OysterCard do
       expect(oystercard.deduct(5)).to(eq(5))
     end
   end
+  describe "#touch_in" do
+    it "changes value of in_journey to true" do
+      oystercard.touch_in
+      expect(oystercard.in_journey).to eq(true)
+    end
+  end
+  describe "#touch_out" do
+    it "changes value of in_journey to false" do
+      oystercard.touch_out
+      expect(oystercard.in_journey).to eq(false)
+    end
+  end
+  describe "#in_journey?" do
+    it "states whether it's in a journey" do
+      oystercard.touch_in
+      expect(oystercard.in_journey?).to eq(true)
+    end
+  end
+
 end
