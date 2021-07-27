@@ -24,16 +24,17 @@ describe OysterCard do
   #   end
   # end
   describe "#touch_in" do
-    xit "changes value of in_journey to true" do
+    let(:station) { double :station }
+
+    it "changes value of in_journey to true" do
       oystercard.top_up(5)
-      oystercard.touch_in
+      oystercard.touch_in(station)
       expect(oystercard.in_journey).to eq(true)
     end
-    xit "raises an error if balance is below 1" do
-      expect { oystercard.touch_in }.to raise_error("Balance below #{OysterCard::MINIMUM}!")
+
+    it "raises an error if balance is below 1" do
+      expect { oystercard.touch_in(station) }.to raise_error("Balance below #{OysterCard::MINIMUM}!")
     end
-    
-    let(:station) { double :station }
 
     it "remembers the entry station" do
       oystercard.top_up(5)
@@ -43,21 +44,32 @@ describe OysterCard do
 
   end
   describe "#touch_out" do
+    let(:station) { double :station }
+
     it "changes value of in_journey to false" do
       oystercard.top_up(1)
       oystercard.touch_out
       expect(oystercard.in_journey).to eq(false)
     end
-    it "deducts the minimum fare from balace" do
+
+    it "deducts the minimum fare from balance" do
       oystercard.top_up(1)
       expect { oystercard.touch_out }.to change{ oystercard.balance }.by(-OysterCard::MINIMUM)
-      
+    end
+
+    it 'changes entry_station to nil when touching out' do
+      oystercard.top_up(5)
+      oystercard.touch_in(station)
+      oystercard.touch_out
+      expect(oystercard.entry_station).to be nil
     end
   end
+
   describe "#in_journey?" do
-    xit "states whether it's in a journey" do
+    let(:station) { double :station }
+    it "states whether it's in a journey" do
       oystercard.top_up(5)
-      oystercard.touch_in
+      oystercard.touch_in(station)
       expect(oystercard.in_journey?).to eq(true)
     end
   end
