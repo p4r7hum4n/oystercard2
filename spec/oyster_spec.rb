@@ -65,30 +65,4 @@ describe OysterCard do
     end
   end
 
-  describe "#in_journey?" do
-    let(:station) { double :station }
-    it "states whether it's in a journey" do
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      expect(oystercard.in_journey?).to eq(true)
-    end
-  end
-
-  describe "journeys instance variable" do
-    let(:station) { double :station }
-
-    it "starts off empty" do
-      expect(oystercard.instance_variable_get(:@journeys)).to eq([])
-    end
-
-    it "adds entry and exit stations" do
-      
-      oystercard.top_up(5)
-      oystercard.touch_in(station)
-      oystercard.touch_out(station)
-      expect(oystercard.instance_variable_get(:@journeys)).not_to eq([])
-
-    end
-  end
-
 end
